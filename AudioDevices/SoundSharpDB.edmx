@@ -1,0 +1,533 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SoundSharpDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AudioDevice">
+          <Key>
+            <PropertyRef Name="SerialId" />
+          </Key>
+          <Property Name="SerialId" Type="int" Nullable="false" />
+          <Property Name="Model" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Make" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="PriceExBtw" Type="smallmoney" Nullable="false" />
+          <Property Name="CreationDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="BtwPercentage" Type="numeric" Precision="3" Scale="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CdDiscMan">
+          <Key>
+            <PropertyRef Name="SerialId" />
+          </Key>
+          <Property Name="SerialId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Model" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Make" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="PriceExBtw" Type="smallmoney" Nullable="false" />
+          <Property Name="CreationDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="BtwPercentage" Type="numeric" Precision="3" Scale="1" Nullable="false" />
+          <Property Name="MbSize" Type="int" Nullable="false" />
+          <Property Name="DisplayWidth" Type="int" Nullable="false" />
+          <Property Name="DisplayHeight" Type="int" Nullable="false" />
+          <Property Name="IsEjected" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MemoRecorder">
+          <Key>
+            <PropertyRef Name="SerialId" />
+          </Key>
+          <Property Name="SerialId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Model" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Make" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="PriceExBtw" Type="smallmoney" Nullable="false" />
+          <Property Name="CreationDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="BtwPercentage" Type="numeric" Precision="3" Scale="1" Nullable="false" />
+          <Property Name="MaxCartridgeType" Type="nvarchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Mp3Player">
+          <Key>
+            <PropertyRef Name="SerialId" />
+          </Key>
+          <Property Name="SerialId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Model" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Make" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="PriceExBtw" Type="smallmoney" Nullable="false" />
+          <Property Name="CreationDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="BtwPercentage" Type="numeric" Precision="3" Scale="1" Nullable="false" />
+          <Property Name="MbSize" Type="int" Nullable="false" />
+          <Property Name="DisplayWidth" Type="int" Nullable="false" />
+          <Property Name="DisplayHeight" Type="int" Nullable="false" />
+          <Property Name="TrackList" Type="int" />
+        </EntityType>
+        <EntityType Name="Track">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Artist" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Style" Type="int" Nullable="false" />
+          <Property Name="AlbumSource" Type="nvarchar(max)" />
+          <Property Name="Length" Type="time" Precision="7" />
+        </EntityType>
+        <EntityType Name="TrackList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="Owner" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="TrackListTrack">
+          <Key>
+            <PropertyRef Name="TrackListId" />
+            <PropertyRef Name="TrackId" />
+          </Key>
+          <Property Name="TrackListId" Type="int" Nullable="false" />
+          <Property Name="TrackId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AudioDevice_CdDiskMan">
+          <End Role="CdDiscMan" Type="Self.CdDiscMan" Multiplicity="1" />
+          <End Role="AudioDevice" Type="Self.AudioDevice" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="CdDiscMan">
+              <PropertyRef Name="SerialId" />
+            </Principal>
+            <Dependent Role="AudioDevice">
+              <PropertyRef Name="SerialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AudioDevice_MemoRecorder">
+          <End Role="MemoRecorder" Type="Self.MemoRecorder" Multiplicity="1" />
+          <End Role="AudioDevice" Type="Self.AudioDevice" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="MemoRecorder">
+              <PropertyRef Name="SerialId" />
+            </Principal>
+            <Dependent Role="AudioDevice">
+              <PropertyRef Name="SerialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AudioDevice_Mp3Player">
+          <End Role="Mp3Player" Type="Self.Mp3Player" Multiplicity="1" />
+          <End Role="AudioDevice" Type="Self.AudioDevice" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Mp3Player">
+              <PropertyRef Name="SerialId" />
+            </Principal>
+            <Dependent Role="AudioDevice">
+              <PropertyRef Name="SerialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Mp3Player_TrackList">
+          <End Role="TrackList" Type="Self.TrackList" Multiplicity="1" />
+          <End Role="Mp3Player" Type="Self.Mp3Player" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="TrackList">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Mp3Player">
+              <PropertyRef Name="SerialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Track_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Track" Type="Self.Track" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Track">
+              <PropertyRef Name="Style" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrackListTrack_Track">
+          <End Role="Track" Type="Self.Track" Multiplicity="1" />
+          <End Role="TrackListTrack" Type="Self.TrackListTrack" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Track">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TrackListTrack">
+              <PropertyRef Name="TrackId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrackListTrack_TrackList">
+          <End Role="TrackList" Type="Self.TrackList" Multiplicity="1" />
+          <End Role="TrackListTrack" Type="Self.TrackListTrack" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrackList">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TrackListTrack">
+              <PropertyRef Name="TrackListId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SoundSharpDBModelStoreContainer">
+          <EntitySet Name="AudioDevice" EntityType="Self.AudioDevice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CdDiscMan" EntityType="Self.CdDiscMan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MemoRecorder" EntityType="Self.MemoRecorder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mp3Player" EntityType="Self.Mp3Player" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Track" EntityType="Self.Track" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrackList" EntityType="Self.TrackList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrackListTrack" EntityType="Self.TrackListTrack" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AudioDevice_CdDiskMan" Association="Self.FK_AudioDevice_CdDiskMan">
+            <End Role="CdDiscMan" EntitySet="CdDiscMan" />
+            <End Role="AudioDevice" EntitySet="AudioDevice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AudioDevice_MemoRecorder" Association="Self.FK_AudioDevice_MemoRecorder">
+            <End Role="MemoRecorder" EntitySet="MemoRecorder" />
+            <End Role="AudioDevice" EntitySet="AudioDevice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AudioDevice_Mp3Player" Association="Self.FK_AudioDevice_Mp3Player">
+            <End Role="Mp3Player" EntitySet="Mp3Player" />
+            <End Role="AudioDevice" EntitySet="AudioDevice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Mp3Player_TrackList" Association="Self.FK_Mp3Player_TrackList">
+            <End Role="TrackList" EntitySet="TrackList" />
+            <End Role="Mp3Player" EntitySet="Mp3Player" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Track_Category" Association="Self.FK_Track_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Track" EntitySet="Track" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrackListTrack_Track" Association="Self.FK_TrackListTrack_Track">
+            <End Role="Track" EntitySet="Track" />
+            <End Role="TrackListTrack" EntitySet="TrackListTrack" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrackListTrack_TrackList" Association="Self.FK_TrackListTrack_TrackList">
+            <End Role="TrackList" EntitySet="TrackList" />
+            <End Role="TrackListTrack" EntitySet="TrackListTrack" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SoundSharpDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AudioDevice">
+          <Key>
+            <PropertyRef Name="SerialId" />
+          </Key>
+          <Property Name="SerialId" Type="Int32" Nullable="false" />
+          <Property Name="Model" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Make" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PriceExBtw" Type="Decimal" Precision="10" Scale="4" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="BtwPercentage" Type="Decimal" Precision="3" Scale="1" Nullable="false" />
+          <NavigationProperty Name="CdDiscMan" Relationship="Self.FK_AudioDevice_CdDiskMan" FromRole="AudioDevice" ToRole="CdDiscMan" />
+          <NavigationProperty Name="MemoRecorder" Relationship="Self.FK_AudioDevice_MemoRecorder" FromRole="AudioDevice" ToRole="MemoRecorder" />
+          <NavigationProperty Name="Mp3Player" Relationship="Self.FK_AudioDevice_Mp3Player" FromRole="AudioDevice" ToRole="Mp3Player" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Track" Relationship="Self.FK_Track_Category" FromRole="Category" ToRole="Track" />
+        </EntityType>
+        <EntityType Name="CdDiscMan">
+          <Key>
+            <PropertyRef Name="SerialId" />
+          </Key>
+          <Property Name="SerialId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Model" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Make" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PriceExBtw" Type="Decimal" Precision="10" Scale="4" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="BtwPercentage" Type="Decimal" Precision="3" Scale="1" Nullable="false" />
+          <Property Name="MbSize" Type="Int32" Nullable="false" />
+          <Property Name="DisplayWidth" Type="Int32" Nullable="false" />
+          <Property Name="DisplayHeight" Type="Int32" Nullable="false" />
+          <Property Name="IsEjected" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AudioDevice" Relationship="Self.FK_AudioDevice_CdDiskMan" FromRole="CdDiscMan" ToRole="AudioDevice" />
+        </EntityType>
+        <EntityType Name="MemoRecorder">
+          <Key>
+            <PropertyRef Name="SerialId" />
+          </Key>
+          <Property Name="SerialId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Model" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Make" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PriceExBtw" Type="Decimal" Precision="10" Scale="4" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="BtwPercentage" Type="Decimal" Precision="3" Scale="1" Nullable="false" />
+          <Property Name="MaxCartridgeType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AudioDevice" Relationship="Self.FK_AudioDevice_MemoRecorder" FromRole="MemoRecorder" ToRole="AudioDevice" />
+        </EntityType>
+        <EntityType Name="Mp3Player">
+          <Key>
+            <PropertyRef Name="SerialId" />
+          </Key>
+          <Property Name="SerialId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Model" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Make" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PriceExBtw" Type="Decimal" Precision="10" Scale="4" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="BtwPercentage" Type="Decimal" Precision="3" Scale="1" Nullable="false" />
+          <Property Name="MbSize" Type="Int32" Nullable="false" />
+          <Property Name="DisplayWidth" Type="Int32" Nullable="false" />
+          <Property Name="DisplayHeight" Type="Int32" Nullable="false" />
+          <Property Name="TrackList" Type="Int32" />
+          <NavigationProperty Name="AudioDevice" Relationship="Self.FK_AudioDevice_Mp3Player" FromRole="Mp3Player" ToRole="AudioDevice" />
+          <NavigationProperty Name="TrackList1" Relationship="Self.FK_Mp3Player_TrackList" FromRole="Mp3Player" ToRole="TrackList" />
+        </EntityType>
+        <EntityType Name="Track">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Artist" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Style" Type="Int32" Nullable="false" />
+          <Property Name="AlbumSource" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Length" Type="Time" Precision="7" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_Track_Category" FromRole="Track" ToRole="Category" />
+          <NavigationProperty Name="TrackList" Relationship="Self.TrackListTrack" FromRole="Track" ToRole="TrackList" />
+        </EntityType>
+        <EntityType Name="TrackList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Owner" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Mp3Player" Relationship="Self.FK_Mp3Player_TrackList" FromRole="TrackList" ToRole="Mp3Player" />
+          <NavigationProperty Name="Track" Relationship="Self.TrackListTrack" FromRole="TrackList" ToRole="Track" />
+        </EntityType>
+        <Association Name="FK_AudioDevice_CdDiskMan">
+          <End Role="CdDiscMan" Type="Self.CdDiscMan" Multiplicity="1" />
+          <End Role="AudioDevice" Type="Self.AudioDevice" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="CdDiscMan">
+              <PropertyRef Name="SerialId" />
+            </Principal>
+            <Dependent Role="AudioDevice">
+              <PropertyRef Name="SerialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AudioDevice_MemoRecorder">
+          <End Role="MemoRecorder" Type="Self.MemoRecorder" Multiplicity="1" />
+          <End Role="AudioDevice" Type="Self.AudioDevice" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="MemoRecorder">
+              <PropertyRef Name="SerialId" />
+            </Principal>
+            <Dependent Role="AudioDevice">
+              <PropertyRef Name="SerialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AudioDevice_Mp3Player">
+          <End Role="Mp3Player" Type="Self.Mp3Player" Multiplicity="1" />
+          <End Role="AudioDevice" Type="Self.AudioDevice" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Mp3Player">
+              <PropertyRef Name="SerialId" />
+            </Principal>
+            <Dependent Role="AudioDevice">
+              <PropertyRef Name="SerialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Track_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Track" Type="Self.Track" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Track">
+              <PropertyRef Name="Style" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Mp3Player_TrackList">
+          <End Role="TrackList" Type="Self.TrackList" Multiplicity="1" />
+          <End Role="Mp3Player" Type="Self.Mp3Player" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="TrackList">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Mp3Player">
+              <PropertyRef Name="SerialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TrackListTrack">
+          <End Role="Track" Type="Self.Track" Multiplicity="*" />
+          <End Role="TrackList" Type="Self.TrackList" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="SoundSharpDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AudioDevice" EntityType="Self.AudioDevice" />
+          <EntitySet Name="Category" EntityType="Self.Category" />
+          <EntitySet Name="CdDiscMan" EntityType="Self.CdDiscMan" />
+          <EntitySet Name="MemoRecorder" EntityType="Self.MemoRecorder" />
+          <EntitySet Name="Mp3Player" EntityType="Self.Mp3Player" />
+          <EntitySet Name="Track" EntityType="Self.Track" />
+          <EntitySet Name="TrackList" EntityType="Self.TrackList" />
+          <AssociationSet Name="FK_AudioDevice_CdDiskMan" Association="Self.FK_AudioDevice_CdDiskMan">
+            <End Role="CdDiscMan" EntitySet="CdDiscMan" />
+            <End Role="AudioDevice" EntitySet="AudioDevice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AudioDevice_MemoRecorder" Association="Self.FK_AudioDevice_MemoRecorder">
+            <End Role="MemoRecorder" EntitySet="MemoRecorder" />
+            <End Role="AudioDevice" EntitySet="AudioDevice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AudioDevice_Mp3Player" Association="Self.FK_AudioDevice_Mp3Player">
+            <End Role="Mp3Player" EntitySet="Mp3Player" />
+            <End Role="AudioDevice" EntitySet="AudioDevice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Track_Category" Association="Self.FK_Track_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Track" EntitySet="Track" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Mp3Player_TrackList" Association="Self.FK_Mp3Player_TrackList">
+            <End Role="TrackList" EntitySet="TrackList" />
+            <End Role="Mp3Player" EntitySet="Mp3Player" />
+          </AssociationSet>
+          <AssociationSet Name="TrackListTrack" Association="Self.TrackListTrack">
+            <End Role="Track" EntitySet="Track" />
+            <End Role="TrackList" EntitySet="TrackList" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SoundSharpDBModelStoreContainer" CdmEntityContainer="SoundSharpDBEntities">
+          <EntitySetMapping Name="AudioDevice">
+            <EntityTypeMapping TypeName="SoundSharpDBModel.AudioDevice">
+              <MappingFragment StoreEntitySet="AudioDevice">
+                <ScalarProperty Name="SerialId" ColumnName="SerialId" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Make" ColumnName="Make" />
+                <ScalarProperty Name="PriceExBtw" ColumnName="PriceExBtw" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="BtwPercentage" ColumnName="BtwPercentage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Category">
+            <EntityTypeMapping TypeName="SoundSharpDBModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CdDiscMan">
+            <EntityTypeMapping TypeName="SoundSharpDBModel.CdDiscMan">
+              <MappingFragment StoreEntitySet="CdDiscMan">
+                <ScalarProperty Name="SerialId" ColumnName="SerialId" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Make" ColumnName="Make" />
+                <ScalarProperty Name="PriceExBtw" ColumnName="PriceExBtw" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="BtwPercentage" ColumnName="BtwPercentage" />
+                <ScalarProperty Name="MbSize" ColumnName="MbSize" />
+                <ScalarProperty Name="DisplayWidth" ColumnName="DisplayWidth" />
+                <ScalarProperty Name="DisplayHeight" ColumnName="DisplayHeight" />
+                <ScalarProperty Name="IsEjected" ColumnName="IsEjected" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MemoRecorder">
+            <EntityTypeMapping TypeName="SoundSharpDBModel.MemoRecorder">
+              <MappingFragment StoreEntitySet="MemoRecorder">
+                <ScalarProperty Name="SerialId" ColumnName="SerialId" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Make" ColumnName="Make" />
+                <ScalarProperty Name="PriceExBtw" ColumnName="PriceExBtw" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="BtwPercentage" ColumnName="BtwPercentage" />
+                <ScalarProperty Name="MaxCartridgeType" ColumnName="MaxCartridgeType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mp3Player">
+            <EntityTypeMapping TypeName="SoundSharpDBModel.Mp3Player">
+              <MappingFragment StoreEntitySet="Mp3Player">
+                <ScalarProperty Name="SerialId" ColumnName="SerialId" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Make" ColumnName="Make" />
+                <ScalarProperty Name="PriceExBtw" ColumnName="PriceExBtw" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="BtwPercentage" ColumnName="BtwPercentage" />
+                <ScalarProperty Name="MbSize" ColumnName="MbSize" />
+                <ScalarProperty Name="DisplayWidth" ColumnName="DisplayWidth" />
+                <ScalarProperty Name="DisplayHeight" ColumnName="DisplayHeight" />
+                <ScalarProperty Name="TrackList" ColumnName="TrackList" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Track">
+            <EntityTypeMapping TypeName="SoundSharpDBModel.Track">
+              <MappingFragment StoreEntitySet="Track">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Artist" ColumnName="Artist" />
+                <ScalarProperty Name="Style" ColumnName="Style" />
+                <ScalarProperty Name="AlbumSource" ColumnName="AlbumSource" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrackList">
+            <EntityTypeMapping TypeName="SoundSharpDBModel.TrackList">
+              <MappingFragment StoreEntitySet="TrackList">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="TrackListTrack" TypeName="SoundSharpDBModel.TrackListTrack" StoreEntitySet="TrackListTrack">
+            <EndProperty Name="Track">
+              <ScalarProperty Name="ID" ColumnName="TrackId" />
+            </EndProperty>
+            <EndProperty Name="TrackList">
+              <ScalarProperty Name="ID" ColumnName="TrackListId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
